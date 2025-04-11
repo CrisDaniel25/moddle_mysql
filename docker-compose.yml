@@ -1,23 +1,22 @@
-version: '1.0'
+version: '3.8'
 
 services:
   moodle:
     image: moodlehq/moodle-php-apache:8.2
     container_name: moodle
+    depends_on:
+      - db
     ports:
-      - "80:80"
-      - "443:443"
-    volumes:
-      - ./moodle:/var/www/html
-      - moodledata:/var/www/moodledata
+      - "8090:80"
     environment:
       - MOODLE_DBTYPE=mysqli
       - MOODLE_DBHOST=db
       - MOODLE_DBNAME=moodle
       - MOODLE_DBUSER=moodle
       - MOODLE_DBPASS=moodle
-    depends_on:
-      - db
+    volumes:
+      - ./moodledata:/bitnami/moodle
+      - ./moodle:/var/www/html
 
   db:
     image: mysql:8.4
